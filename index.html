@@ -16,7 +16,6 @@ body {
   overflow: hidden;
 }
 
-/* Main Card */
 .card {
   background: white;
   padding: 35px;
@@ -24,24 +23,11 @@ body {
   text-align: center;
   width: 360px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  animation: pop 1s ease;
 }
 
-@keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
+h1 { color: #ff4d6d; }
+p { color: #555; }
 
-h1 {
-  color: #ff4d6d;
-}
-
-p {
-  color: #555;
-  font-size: 16px;
-}
-
-/* Buttons */
 button {
   padding: 12px 28px;
   margin: 12px;
@@ -52,21 +38,17 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
-  transform: scale(1.15);
+button:hover { transform: scale(1.15); }
+
+#yes { background: #ff4d6d; color: white; }
+#no  { background: #ddd; position: relative; }
+
+#msg {
+  margin-top: 15px;
+  color: #ff4d6d;
+  font-size: 17px;
 }
 
-#yes {
-  background: #ff4d6d;
-  color: white;
-}
-
-#no {
-  background: #ddd;
-  position: relative;
-}
-
-/* Floating emojis */
 .float {
   position: fixed;
   bottom: -30px;
@@ -79,7 +61,6 @@ button:hover {
   to { transform: translateY(-900px); opacity: 0; }
 }
 
-/* Celebration Page */
 #celebrate {
   display: none;
   position: fixed;
@@ -92,10 +73,8 @@ button:hover {
   text-align: center;
 }
 
-/* Ring Animation */
 .ring {
   font-size: 90px;
-  margin-bottom: 15px;
   animation: ringPop 1s ease infinite alternate;
 }
 
@@ -108,7 +87,6 @@ button:hover {
 
 <body>
 
-<!-- Proposal Card -->
 <div class="card" id="card">
   <h1>💖 Hey Aahana 💖</h1>
   <p>Will you be my Valentine? 😌</p>
@@ -119,14 +97,12 @@ button:hover {
   <div id="msg"></div>
 </div>
 
-<!-- Celebration Page -->
 <div id="celebrate">
   <div class="ring">💍</div>
   <h1>😍 I knew it! 💖</h1>
   <p>You made my day Aahana 😘🎉</p>
 </div>
 
-<!-- Soft Love Music -->
 <audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5b8b4b0f99.mp3">
 </audio>
@@ -139,7 +115,6 @@ const card = document.getElementById("card");
 const celebrate = document.getElementById("celebrate");
 const music = document.getElementById("music");
 
-/* Messages when NO is clicked */
 const noMessages = [
   "Really? 😢",
   "Are you sure Aahana? 🥺",
@@ -151,21 +126,26 @@ const noMessages = [
 
 let noIndex = 0;
 
-/* No button bhaagta hai */
-no.onmouseover = () => {
-  no.style.left = Math.random() * 220 - 110 + "px";
-  no.style.top = Math.random() * 220 - 110 + "px";
-};
+/* No hover = bhaag */
+no.addEventListener("mouseenter", () => {
+  no.style.left = Math.random() * 200 - 100 + "px";
+  no.style.top  = Math.random() * 200 - 100 + "px";
+});
 
-/* No click = message change */
-no.onclick = () => {
+/* No click = message */
+no.addEventListener("click", () => {
   msg.innerText = noMessages[noIndex % noMessages.length];
   noIndex++;
-};
+});
 
-/* Yes click = celebration */
-yes.onclick = () => {
-  music.play();
+/* Yes click = celebration + music */
+yes.addEventListener("click", async () => {
+  try {
+    await music.play();
+  } catch (e) {
+    console.log("Music blocked until interaction");
+  }
+
   card.style.display = "none";
   celebrate.style.display = "flex";
 
@@ -178,7 +158,7 @@ yes.onclick = () => {
     document.body.appendChild(e);
     setTimeout(() => e.remove(), 7000);
   }, 300);
-};
+});
 
 /* Background hearts & teddy */
 setInterval(() => {
@@ -188,7 +168,7 @@ setInterval(() => {
   bg.style.left = Math.random() * 100 + "vw";
   document.body.appendChild(bg);
   setTimeout(() => bg.remove(), 7000);
-}, 700);
+}, 800);
 </script>
 
 </body>

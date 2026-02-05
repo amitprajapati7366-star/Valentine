@@ -38,6 +38,7 @@ h1 {
 
 p {
   color: #555;
+  font-size: 16px;
 }
 
 /* Buttons */
@@ -78,7 +79,7 @@ button:hover {
   to { transform: translateY(-900px); opacity: 0; }
 }
 
-/* Celebration Screen */
+/* Celebration Page */
 #celebrate {
   display: none;
   position: fixed;
@@ -91,8 +92,16 @@ button:hover {
   text-align: center;
 }
 
-#celebrate h1 {
-  font-size: 2.5rem;
+/* Ring Animation */
+.ring {
+  font-size: 90px;
+  margin-bottom: 15px;
+  animation: ringPop 1s ease infinite alternate;
+}
+
+@keyframes ringPop {
+  from { transform: scale(0.8); }
+  to { transform: scale(1.15); }
 }
 </style>
 </head>
@@ -112,11 +121,12 @@ button:hover {
 
 <!-- Celebration Page -->
 <div id="celebrate">
+  <div class="ring">💍</div>
   <h1>😍 I knew it! 💖</h1>
   <p>You made my day Aahana 😘🎉</p>
 </div>
 
-<!-- Soft Love Music (royalty-free) -->
+<!-- Soft Love Music -->
 <audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5b8b4b0f99.mp3">
 </audio>
@@ -129,12 +139,14 @@ const card = document.getElementById("card");
 const celebrate = document.getElementById("celebrate");
 const music = document.getElementById("music");
 
-const noTexts = [
+/* Messages when NO is clicked */
+const noMessages = [
   "Really? 😢",
-  "Are you sure? 🥺",
-  "I really want you to say Yes 💕",
-  "Think again 😌",
-  "Last chance 🙈"
+  "Are you sure Aahana? 🥺",
+  "I really want you to say YES 💕",
+  "Please think again 😌",
+  "Dil se pooch lo 🙈",
+  "Last chance 😭❤️"
 ];
 
 let noIndex = 0;
@@ -145,13 +157,13 @@ no.onmouseover = () => {
   no.style.top = Math.random() * 220 - 110 + "px";
 };
 
-/* No click pe text change */
+/* No click = message change */
 no.onclick = () => {
-  no.innerText = noTexts[noIndex % noTexts.length];
+  msg.innerText = noMessages[noIndex % noMessages.length];
   noIndex++;
 };
 
-/* Yes click = celebration page */
+/* Yes click = celebration */
 yes.onclick = () => {
   music.play();
   card.style.display = "none";

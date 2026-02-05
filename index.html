@@ -35,13 +35,15 @@ button {
   border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
-button:hover { transform: scale(1.15); }
+button:active {
+  transform: scale(0.95);
+}
 
 #yes { background: #ff4d6d; color: white; }
-#no  { background: #ddd; position: relative; }
+#no  { background: #ddd; position: absolute; }
 
 #msg {
   margin-top: 15px;
@@ -49,18 +51,7 @@ button:hover { transform: scale(1.15); }
   font-size: 17px;
 }
 
-.float {
-  position: fixed;
-  bottom: -30px;
-  font-size: 28px;
-  animation: floatUp 7s linear infinite;
-}
-
-@keyframes floatUp {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-900px); opacity: 0; }
-}
-
+/* Celebration */
 #celebrate {
   display: none;
   position: fixed;
@@ -80,7 +71,20 @@ button:hover { transform: scale(1.15); }
 
 @keyframes ringPop {
   from { transform: scale(0.8); }
-  to { transform: scale(1.15); }
+  to   { transform: scale(1.15); }
+}
+
+/* Floating emojis */
+.float {
+  position: fixed;
+  bottom: -30px;
+  font-size: 28px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(-800px); opacity: 0; }
 }
 </style>
 </head>
@@ -103,7 +107,7 @@ button:hover { transform: scale(1.15); }
   <p>You made my day Aahana 😘🎉</p>
 </div>
 
-<audio id="music" loop>
+<audio id="music">
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5b8b4b0f99.mp3">
 </audio>
 
@@ -115,36 +119,29 @@ const card = document.getElementById("card");
 const celebrate = document.getElementById("celebrate");
 const music = document.getElementById("music");
 
-const noMessages = [
+const messages = [
   "Really? 😢",
   "Are you sure Aahana? 🥺",
-  "I really want you to say YES 💕",
-  "Please think again 😌",
-  "Dil se pooch lo 🙈",
-  "Last chance 😭❤️"
+  "Please say Yes 💕",
+  "Dil se socho 😌",
+  "Last chance 🙈"
 ];
 
-let noIndex = 0;
+let index = 0;
 
-/* No hover = bhaag */
-no.addEventListener("mouseenter", () => {
-  no.style.left = Math.random() * 200 - 100 + "px";
-  no.style.top  = Math.random() * 200 - 100 + "px";
-});
-
-/* No click = message */
+/* MOBILE SAFE: No tap = bhaag + message */
 no.addEventListener("click", () => {
-  msg.innerText = noMessages[noIndex % noMessages.length];
-  noIndex++;
+  msg.innerText = messages[index % messages.length];
+  index++;
+
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  no.style.transform = translate(${x}px, ${y}px);
 });
 
-/* Yes click = celebration + music */
-yes.addEventListener("click", async () => {
-  try {
-    await music.play();
-  } catch (e) {
-    console.log("Music blocked until interaction");
-  }
+/* YES = guaranteed music + celebration */
+yes.addEventListener("click", () => {
+  music.play();
 
   card.style.display = "none";
   celebrate.style.display = "flex";
@@ -156,19 +153,9 @@ yes.addEventListener("click", async () => {
     e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     e.style.left = Math.random() * 100 + "vw";
     document.body.appendChild(e);
-    setTimeout(() => e.remove(), 7000);
+    setTimeout(() => e.remove(), 6000);
   }, 300);
 });
-
-/* Background hearts & teddy */
-setInterval(() => {
-  const bg = document.createElement("div");
-  bg.className = "float";
-  bg.innerText = Math.random() > 0.5 ? "💖" : "🧸";
-  bg.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(bg);
-  setTimeout(() => bg.remove(), 7000);
-}, 800);
 </script>
 
 </body>
